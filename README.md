@@ -1,26 +1,26 @@
-🐾 Pet Care Hub
+## 🐾 Pet Care Hub
 
-Tim: Mario Hajnić — 347/25
+**Tim**: Mario Hajnić — 347/25
 
-🎓 Fakultet informatike u Puli
+###### 🎓 Fakultet informatike u Puli
 
 https://fipu.unipu.hr/
 
 
 
-📘 Kolegij: Programsko inženjerstvo
+###### 📘 Kolegij: Programsko inženjerstvo
 
 https://ntankovic.unipu.hr/pi
 
 
 
-👨‍🏫 Mentor: doc. dr. sc. Nikola Tanković
+###### 👨‍🏫 Mentor: doc. dr. sc. Nikola Tanković
 
 https://ntankovic.unipu.hr/
 
 
 
-📝 Opis aplikacije
+###### 📝 Opis aplikacije
 
 Pet Care Hub je Vue 3 web aplikacija za upravljanje kućnim ljubimcima i njihovim svakodnevnim obavezama.
 
@@ -30,27 +30,27 @@ Aplikacija omogućuje:
 
 
 
-dodavanje profila ljubimca (ime, vrsta, godine, zdravstveno stanje, slika)
+* dodavanje profila ljubimca (ime, vrsta, godine, zdravstveno stanje, slika)
 
 
 
-uređivanje i brisanje profila ljubimca
+* uređivanje i brisanje profila ljubimca
 
 
 
-unos obaveza i aktivnosti
+* unos obaveza i aktivnosti
 
 
 
-uređivanje i brisanje aktivnosti
+* uređivanje i brisanje aktivnosti
 
 
 
-pregled povijesti aktivnosti
+* pregled povijesti aktivnosti
 
 
 
-spremanje podataka u localStorage
+* spremanje podataka u localStorage
 
 
 
@@ -58,7 +58,7 @@ Cilj aplikacije je korisnicima omogućiti jednostavno praćenje brige o ljubimci
 
 
 
-🖼️ Javni prototip
+###### 🖼️ Javni prototip
 
 Link:
 
@@ -66,9 +66,9 @@ https://www.figma.com/proto/fjcxqTS9lw91CJj6q7LBi8/PetCareHub?node-id=4-3551\&p=
 
 
 
-👥 Zaduženja po članu tima
+###### 👥 Zaduženja po članu tima
 
-Mario Hajnić
+**Mario Hajnić**
 
 Izrada prototipa
 
