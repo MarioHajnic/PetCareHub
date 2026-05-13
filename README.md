@@ -1,90 +1,90 @@
-# 🐾 Pet Care Hub
+🐾 Pet Care Hub
 
-# Tim: Mario Hajnić — 347/25
+Tim: Mario Hajnić — 347/25
 
-# 🎓 Fakultet informatike u Puli
+🎓 Fakultet informatike u Puli
 
-# https://fipu.unipu.hr/
+https://fipu.unipu.hr/
 
-# 
 
-# 📘 Kolegij: Programsko inženjerstvo
 
-# https://ntankovic.unipu.hr/pi
+📘 Kolegij: Programsko inženjerstvo
 
-# 
+https://ntankovic.unipu.hr/pi
 
-# 👨‍🏫 Mentor: doc. dr. sc. Nikola Tanković
 
-# https://ntankovic.unipu.hr/
 
-# 
+👨‍🏫 Mentor: doc. dr. sc. Nikola Tanković
 
-# 📝 Opis aplikacije
+https://ntankovic.unipu.hr/
 
-# Pet Care Hub je Vue 3 web aplikacija za upravljanje kućnim ljubimcima i njihovim svakodnevnim obavezama.
 
-# 
 
-# Aplikacija omogućuje:
+📝 Opis aplikacije
 
-# 
+Pet Care Hub je Vue 3 web aplikacija za upravljanje kućnim ljubimcima i njihovim svakodnevnim obavezama.
 
-# dodavanje profila ljubimca (ime, vrsta, godine, zdravstveno stanje, slika)
 
-# 
 
-# uređivanje i brisanje profila ljubimca
+Aplikacija omogućuje:
 
-# 
 
-# unos obaveza i aktivnosti
 
-# 
+dodavanje profila ljubimca (ime, vrsta, godine, zdravstveno stanje, slika)
 
-# uređivanje i brisanje aktivnosti
 
-# 
 
-# pregled povijesti aktivnosti
+uređivanje i brisanje profila ljubimca
 
-# 
 
-# spremanje podataka u localStorage
 
-# 
+unos obaveza i aktivnosti
 
-# Cilj aplikacije je korisnicima omogućiti jednostavno praćenje brige o ljubimcima kroz intuitivno i pregledno sučelje.
 
-# 
 
-# 🖼️ Javni prototip
+uređivanje i brisanje aktivnosti
 
-# Link:
 
-# https://www.figma.com/proto/fjcxqTS9lw91CJj6q7LBi8/PetCareHub?node-id=4-3551\&p=f\&t=7dMgd6DG6UTKiOlm-0\&scaling=scale-down\&content-scaling=fixed\&page-id=3%3A2\&starting-point-node-id=4%3A3551
 
-# 
+pregled povijesti aktivnosti
 
-# 👥 Zaduženja po članu tima
 
-# Mario Hajnić
 
-# Izrada prototipa
+spremanje podataka u localStorage
 
-# 
 
-# Izrada UML dijagrama (Use Case + Sequence)
 
-# 
+Cilj aplikacije je korisnicima omogućiti jednostavno praćenje brige o ljubimcima kroz intuitivno i pregledno sučelje.
 
-# Implementacija Vue aplikacije
 
-# 
 
-# Testiranje funkcionalnosti
+🖼️ Javni prototip
 
-# 
+Link:
 
-# Dokumentacija i priprema za predaju
+https://www.figma.com/proto/fjcxqTS9lw91CJj6q7LBi8/PetCareHub?node-id=4-3551\&p=f\&t=7dMgd6DG6UTKiOlm-0\&scaling=scale-down\&content-scaling=fixed\&page-id=3%3A2\&starting-point-node-id=4%3A3551
+
+
+
+👥 Zaduženja po članu tima
+
+Mario Hajnić
+
+Izrada prototipa
+
+
+
+Izrada UML dijagrama (Use Case + Sequence)
+
+
+
+Implementacija Vue aplikacije
+
+
+
+Testiranje funkcionalnosti
+
+
+
+Dokumentacija i priprema za predaju
 
