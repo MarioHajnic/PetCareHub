@@ -1,73 +1,74 @@
-# PetCareHub
+#### 🐾 Pet Care Hub
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+Tim: Mario Hajnić — 347/25
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Recommended Browser Setup
+🎓 Fakultet informatike u Puli
+---
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
 
-## Type Support for `.vue` Imports in TS
+https://fipu.unipu.hr/
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+#### 📘 Kolegij: Programsko inženjerstvo
 
-## Project Setup
 
-```sh
-npm install
-```
+https://ntankovic.unipu.hr/pi
 
-### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
-```
 
-### Type-Check, Compile and Minify for Production
+#### 👨‍🏫 Mentor: doc. dr. sc. Nikola Tanković
 
-```sh
-npm run build
-```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+https://ntankovic.unipu.hr/
 
-```sh
-npm run test:unit
-```
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
 
-```sh
-# Install browsers for the first run
-npx playwright install
+#### 📝 Opis aplikacije
 
-# When testing on CI, must build the project first
-npm run build
 
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
+Pet Care Hub je Vue 3 web aplikacija za upravljanje kućnim ljubimcima i njihovim svakodnevnim obavezama.
 
-### Lint with [ESLint](https://eslint.org/)
 
-```sh
-npm run lint
-```
+
+Aplikacija omogućuje:
+
+* dodavanje profila ljubimca (ime, vrsta, godine, zdravstveno stanje, slika)
+* uređivanje i brisanje profila ljubimca
+* unos obaveza i aktivnosti
+* uređivanje i brisanje aktivnosti
+* pregled povijesti aktivnosti
+* spremanje podataka u localStorage
+* 
+
+Cilj aplikacije je korisnicima omogućiti jednostavno praćenje brige o ljubimcima kroz intuitivno i pregledno sučelje.
+
+
+
+#### 🖼️ Javni prototip
+
+
+Link:
+https://www.figma.com/proto/fjcxqTS9lw91CJj6q7LBi8/PetCareHub?node-id=4-3551\&p=f\&t=7dMgd6DG6UTKiOlm-0\&scaling=scale-down\&content-scaling=fixed\&page-id=3%3A2\&starting-point-node-id=4%3A3551
+
+
+
+👥 Zaduženja po članu tima
+
+---
+
+###### Mario Hajnić
+
+
+Izrada prototipa
+
+Izrada UML dijagrama (Use Case + Sequence)
+
+Implementacija Vue aplikacije
+
+Testiranje funkcionalnosti
+
+Dokumentacija i priprema za predaju
+
