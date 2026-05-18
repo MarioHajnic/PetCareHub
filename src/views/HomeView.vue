@@ -12,8 +12,8 @@ function goTo(path: string) {
 <template>
   <div class="home">
 
-    <div class="cards flex flex-col space-y-30">
-      <div class="card w-1/7" @click="goTo('/pets')">
+    <div class="flex flex-col space-y-30">
+      <div class="w-1/7" @click="goTo('/pets')">
         <div class="text-3xl font-bold m-2 flex space-x-1">
           <p style="color: #00798c">Moji</p><p style="color: #fa7528"> ljubimci</p>
         </div>
@@ -21,12 +21,12 @@ function goTo(path: string) {
         <p class="m-2">Pregled i upravljanje ljubimcima</p>
       </div>
 
-      <div class="card w-1/7" @click="goTo('/activities')">
+      <div class="w-1/7" @click="goTo('/activities')">
         <p class="text-3xl font-bold m-2" style="color: #00798c">Aktivnosti</p>
         <p class="m-2">Unos i uređivanje aktivnosti</p>
       </div>
 
-      <div class="card w-1/7" @click="goTo('/history')">
+      <div class="w-1/7" @click="goTo('/history')">
         <div class="text-3xl font-bold m-2 flex space-x-1">
           <p style="color: #00798c">Pregled</p><p style="color: #fa7528">povijesti</p>
         </div>

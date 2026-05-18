@@ -12,7 +12,7 @@ function goTo(path: string) {
 
 <template>
 
-    <div class="card" @click="goTo('/')">
+    <div @click="goTo('/')">
         <p>←</p>
     </div>
 
