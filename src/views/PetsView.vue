@@ -15,8 +15,6 @@ type Pet = {
 
 const pets = ref<Pet[]>([])
 
-
-// odmah učitamo ljubimce
 const stored = localStorage.getItem('pets')
 if (stored) {
   pets.value = JSON.parse(stored)
@@ -65,7 +63,7 @@ function goTo(path: string) {
         </tbody>
       </table>
 
-      <button @click="addPet" class="mt-5">Dodaj ljubimca</button>
+      <button @click="addPet" class="rounded bg-green-500">Dodaj ljubimca</button>
     </div>
   </div>
 </template>

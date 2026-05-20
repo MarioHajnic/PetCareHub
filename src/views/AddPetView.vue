@@ -40,7 +40,7 @@ function savePet() {
     <p>←</p>
   </div>
 
-  <h1>Dodaj ljubimca</h1>
+  <h1 >Dodaj ljubimca</h1>
 
   <div class="mt-10 space-y-4 w-full max-w-md">
 

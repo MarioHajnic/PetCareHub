@@ -10,7 +10,7 @@ function goTo(path: string) {
 </script>
 
 <template>
-  <div class="home">
+  <div>
 
     <div class="flex flex-col space-y-30">
       <div class="w-1/7" @click="goTo('/pets')">
