@@ -17,9 +17,37 @@ type Activity = {
 }
 
 const pets = JSON.parse(localStorage.getItem('pets') || '[]') as Pet[]
-const activities = ref<Activity[]>(JSON.parse(localStorage.getItem('activities') || '[]'))
+const activities = ref(JSON.parse(localStorage.getItem('activities') || '[]'))
 
 const odabraniPet = ref('')
+
+const editingId = ref(0)
+const editDate = ref('')
+const editopis = ref('')
+
+function startEdit(a: Activity) {
+  editingId.value = a.id
+  editDate.value = a.date
+  editopis.value = a.description
+}
+
+function saveEdit(id: number) {
+  const a = activities.value.find(x => x.id === id)
+  if (a) {
+    a.date = editDate.value
+    a.description = editopis.value
+    localStorage.setItem('activities', JSON.stringify(activities.value))
+  }
+  editingId.value = 0
+}
+
+
+function deleteActivity(id: number) {
+  activities.value = activities.value.filter(x => x.id !== id)
+  localStorage.setItem('activities', JSON.stringify(activities.value))
+}
+
+
 
 function addActivity() {
   router.push('/activities/add')
@@ -71,6 +99,7 @@ function petName(id: number) {
           <th class="p-2 text-left">Ljubimac</th>
           <th class="p-2 text-left">Datum</th>
           <th class="p-2 text-left">Opis</th>
+          <th class="p-2 text-left">Akcija</th>
         </tr>
       </thead>
 
@@ -81,10 +110,52 @@ function petName(id: number) {
           class="border-b border-gray-300"
         >
           <td class="p-2">{{ petName(a.petId) }}</td>
-          <td class="p-2">{{ a.date }}</td>
-          <td class="p-2">{{ a.description }}</td>
+
+          <td class="p-2">
+            <div v-if="editingId !== a.id">
+              <span @dblclick="startEdit(a)">{{ a.date }}</span>
+            </div>
+            <div v-else>
+              <input v-model="editDate" class="border p-1" />
+            </div>
+          </td>
+
+          <td class="p-2">
+            <div v-if="editingId !== a.id">
+              <span @dblclick="startEdit(a)">{{ a.description }}</span>
+            </div>
+            <div v-else>
+              <input v-model="editopis" class="border p-1" />
+            </div>
+          </td>
+
+          <td class="p-2">
+            <button 
+              v-if="editingId !== a.id"
+              @click="startEdit(a)"
+              class="text-blue-600"
+            >
+              Uredi
+            </button>
+
+            <button 
+              v-else
+              @click="saveEdit(a.id)"
+              class="text-green-600"
+            >
+              Spremi
+            </button>
+
+            <button 
+              @click="deleteActivity(a.id)"
+              class="text-red-600 ml-2"
+            >
+              Izbriši
+            </button>
+          </td>
         </tr>
       </tbody>
+
     </table>
 
     <p v-else>Još nemaš dodanih aktivnosti.</p>
