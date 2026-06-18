@@ -1,75 +1,113 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<script setup>
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { db, auth } from '@/firebase'
+import { collection, getDocs } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
 
 const router = useRouter()
+const pets = ref([])
 
-type Pet = {
-  id: number
-  name: string
-  species: string
-  age: string
-  health: string
-}
+onMounted(() => {
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return
 
+    const q = await getDocs(collection(db, 'pets'))
+    const arr = []
 
-const pets = ref<Pet[]>([])
+    q.forEach(doc => {
+      const data = doc.data()
+      if (data.userId === user.uid) {
+        arr.push({
+          id: doc.id,
+          name: data.name,
+          species: data.species,
+          age: data.age,
+          health: data.health,
+          image: data.image || ''
+        })
+      }
+    })
 
-const stored = localStorage.getItem('pets')
-if (stored) {
-  pets.value = JSON.parse(stored)
-}
+    pets.value = arr
+  })
+})
 
 function addPet() {
   router.push('/pets/add')
 }
 
-function goTo(path: string) {
+function goTo(path) {
   router.push(path)
+}
+
+function editPet(id) {
+  router.push(`/pets/edit/${id}`)
 }
 </script>
 
+
+
+
 <template>
-  <div @click="goTo('/')">
+  <div @click="goTo('/')" class="cursor-pointer mb-4">
     <p>←</p>
   </div>
 
-  <div class="w-full">
-    <h1>Moji ljubimci</h1>
+  <h1 class="text-2xl font-bold mb-6">Moji ljubimci</h1>
 
-    <div v-if="pets.length === 0" class="mt-10 items-center">
-      <p>Još nemaš dodanih ljubimaca.</p>
-      <button @click="addPet">Dodaj ljubimca</button>
-    </div>
+  <div v-if="pets.length === 0" class="mt-10 text-center">
+    <p class="mb-4">Još nemaš dodanih ljubimaca.</p>
+    <button @click="addPet" class="bg-green-500 text-white px-4 py-2 rounded">
+      Dodaj ljubimca
+    </button>
+  </div>
 
-    <div v-else class="mt-10">
-      <table class="w-full border-collapse">
-        <thead>
-          <tr class="border-b">
-            <th class="text-left p-2">Ime</th>
-            <th class="text-left p-2">Vrsta</th>
-            <th class="text-left p-2">Dob</th>
-            <th class="text-left p-2">Zdravlje</th>
-          </tr>
-        </thead>
+  <div v-else class="mt-10">
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="border-b">
+          <th class="text-left p-2">Slika</th>
+          <th class="text-left p-2">Ime</th>
+          <th class="text-left p-2">Vrsta</th>
+          <th class="text-left p-2">Dob</th>
+          <th class="text-left p-2">Zdravlje</th>
+          <th class="text-left p-2">Akcije</th>
+        </tr>
+      </thead>
 
-        <tbody>
-          <tr v-for="p in pets" :key="p.id" class="border-b">
-            <td class="p-2">{{ p.name }}</td>
-            <td class="p-2">{{ p.species }}</td>
-            <td class="p-2">{{ p.age }}</td>
-            <td class="p-2">{{ p.health }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <tbody>
+        <tr v-for="p in pets" :key="p.id" class="border-b">
+          
+          <td class="p-2">
+            <img
+              v-if="p.image"
+              :src="p.image"
+              class="w-12 h-12 rounded-full object-cover border"
+            />
+          </td>
 
-      <button @click="addPet" class="rounded bg-green-500">Dodaj ljubimca</button>
-    </div>
+          <td class="p-2">{{ p.name }}</td>
+          <td class="p-2">{{ p.species }}</td>
+          <td class="p-2">{{ p.age }}</td>
+          <td class="p-2">{{ p.health }}</td>
+
+          <td class="p-2">
+            <button @click="editPet(p.id)" class="text-blue-600">
+              Uredi
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      @click="addPet"
+      class="rounded bg-green-500 text-white px-4 py-2 mt-6"
+    >
+      Dodaj ljubimca
+    </button>
   </div>
 </template>
 
-<style scoped>
-button {
-  margin-top: 10px;
-}
-</style>

@@ -1,47 +1,71 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<script setup>
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { db, auth } from '@/firebase'
+import { collection, addDoc, getDocs } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
 
 const router = useRouter()
 
+const pets = ref([])
 const petId = ref('')
 const date = ref('')
 const description = ref('')
-
 const error = ref('')
+let currentUser = null
 
-const pets = JSON.parse(localStorage.getItem('pets') || '[]')
+onMounted(() => {
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return
+    currentUser = user
 
-function saveActivity() {
-  if (petId.value == '' || date.value == '' || description.value == '') {
-    error.value = 'Ispuni sva polja!'
+    const q = await getDocs(collection(db, 'pets'))
+    const arr = []
+
+    q.forEach(doc => {
+      const data = doc.data()
+      if (data.userId === user.uid) {
+        arr.push({ id: doc.id, ...data })
+      }
+    })
+
+    pets.value = arr
+  })
+})
+
+async function saveActivity() {
+  if (!petId.value || !date.value || !description.value) {
+    error.value = 'Ispunite sva polja!'
     return
   }
 
-  const newActivity = {
-    id: Date.now(),
-    petId: Number(petId.value),
-    date: date.value,
-    description: description.value
+  if (!currentUser) {
+    error.value = 'Korisnik nije učitan.'
+    return
   }
 
-  const activities = JSON.parse(localStorage.getItem('activities') || '[]')
-  activities.push(newActivity)
-  localStorage.setItem('activities', JSON.stringify(activities))
+  await addDoc(collection(db, 'activities'), {
+    petId: petId.value,
+    date: date.value,
+    description: description.value,
+    userId: currentUser.uid
+  })
 
   router.push('/activities')
 }
 </script>
 
+
+
+
 <template>
-  <div @click="router.push('/activities')">
+  <div class="cursor-pointer" @click="router.push('/activities')">
     <p>←</p>
   </div>
 
   <h1>Dodaj aktivnost</h1>
 
   <div class="mt-10 space-y-4 w-full max-w-md">
-
     <select v-model="petId" class="border p-2 rounded w-full">
       <option value="">Odaberi ljubimca</option>
       <option v-for="p in pets" :key="p.id" :value="p.id">
@@ -49,24 +73,12 @@ function saveActivity() {
       </option>
     </select>
 
-    <input 
-      type="date"
-      v-model="date"
-      class="border p-2 rounded w-full"
-    />
-
-    <textarea
-      v-model="description"
-      class="border p-2 rounded w-full"
-      placeholder="Opis aktivnosti"
-    ></textarea>
+    <input v-model="date" type="date" class="border p-2 rounded w-full" />
+    <textarea v-model="description" class="border p-2 rounded w-full" placeholder="Opis"></textarea>
 
     <p v-if="error" class="text-red-600">{{ error }}</p>
 
-    <button 
-      class="bg-[#00798c] text-white px-4 py-2 rounded"
-      @click="saveActivity"
-    >
+    <button @click="saveActivity" class="bg-[#00798c] text-white px-4 py-2 rounded">
       Spremi
     </button>
   </div>

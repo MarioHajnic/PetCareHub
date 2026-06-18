@@ -1,74 +1,38 @@
-#### 🐾 Pet Care Hub
+# PetCare Hub
 
+This template should help get you started developing with Vue 3 in Vite.
 
-Tim: Mario Hajnić — 347/25
+## Recommended IDE Setup
 
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-🎓 Fakultet informatike u Puli
----
+## Recommended Browser Setup
 
+- Chromium-based browsers (Chrome, Edge, Brave, etc.):
+  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
+  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
+- Firefox:
+  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
 
-https://fipu.unipu.hr/
+## Customize configuration
 
+See [Vite Configuration Reference](https://vite.dev/config/).
 
+## Project Setup
 
-#### 📘 Kolegij: Programsko inženjerstvo
+```sh
+npm install
+```
 
+### Compile and Hot-Reload for Development
 
-https://ntankovic.unipu.hr/pi
+```sh
+npm run dev
+```
 
+### Compile and Minify for Production
 
-
-#### 👨‍🏫 Mentor: doc. dr. sc. Nikola Tanković
-
-
-https://ntankovic.unipu.hr/
-
-
-
-#### 📝 Opis aplikacije
-
-
-Pet Care Hub je Vue 3 web aplikacija za upravljanje kućnim ljubimcima i njihovim svakodnevnim obavezama.
-
-
-
-Aplikacija omogućuje:
-
-* dodavanje profila ljubimca (ime, vrsta, godine, zdravstveno stanje, slika)
-* uređivanje i brisanje profila ljubimca
-* unos obaveza i aktivnosti
-* uređivanje i brisanje aktivnosti
-* pregled povijesti aktivnosti
-* spremanje podataka u localStorage
-* 
-
-Cilj aplikacije je korisnicima omogućiti jednostavno praćenje brige o ljubimcima kroz intuitivno i pregledno sučelje.
-
-
-
-#### 🖼️ Javni prototip
-
-
-Link:
-https://www.figma.com/proto/fjcxqTS9lw91CJj6q7LBi8/PetCareHub?node-id=4-3551\&p=f\&t=7dMgd6DG6UTKiOlm-0\&scaling=scale-down\&content-scaling=fixed\&page-id=3%3A2\&starting-point-node-id=4%3A3551
-
-
-
-👥 Zaduženja po članu tima
-
----
-
-###### Mario Hajnić
-
-
-Izrada prototipa
-
-Izrada UML dijagrama (Use Case + Sequence)
-
-Implementacija Vue aplikacije
-
-Testiranje funkcionalnosti
-
-Dokumentacija i priprema za predaju
-
+```sh
+npm run build
+```
