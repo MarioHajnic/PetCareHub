@@ -17,14 +17,14 @@ import { onAuthStateChanged } from 'firebase/auth'
 
 
 onAuthStateChanged(auth, user => {
-  if (user) router.push('/pets')
+  if (user) router.push('/')
 })
 
 
 async function loginWithGoogle() {
   try {
     await signInWithPopup(auth, googleProvider)
-    router.push('/pets')
+    router.push('/')
   } catch (e) {
     error.value = 'Google prijava nije uspjela'
   }
@@ -41,19 +41,30 @@ async function login() {
 
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value)
-    router.push('/pets')
+    router.push('/')
   } catch (e) {
     error.value = 'Neispravni podaci'
   }
 }
+
+function goToRegister() {
+  router.push('/register')
+}
+
+
 </script>
 
 <template>
   <div class="max-w-md space-y-4">
 
-    <button @click="loginWithGoogle" class="bg-red-500 text-white px-4 py-2 rounded w-full">
-        Prijava putem Googlea
-    </button>
+    <p class="mt-4">
+      Nemaš račun?
+      <span @click="goToRegister" class="text-blue-600 cursor-pointer">
+        Registriraj se
+      </span>
+    </p>
+
+
 
 
 
@@ -72,6 +83,11 @@ async function login() {
       placeholder="Lozinka"
       class="border p-2 rounded w-full"
     />
+
+    <button @click="loginWithGoogle" class="bg-[#fa7528] text-white px-4 py-2 rounded w-full">
+        Prijava putem Googlea
+    </button>
+
 
     <button
       @click="login"

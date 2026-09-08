@@ -55,28 +55,32 @@ async function savePet() {
 
 
 <template>
+  
   <div class="cursor-pointer" @click="router.push('/pets')">
     <p>←</p>
   </div>
 
-  <h1>Dodaj ljubimca</h1>
+  <h1 style="color: #00798c" class="font-bold">Dodaj <span style="color: #fa7528">ljubimca</span></h1>
 
   <div class="mt-10 space-y-4 w-full max-w-md">
-    <input v-model="name" class="border p-2 rounded w-full" placeholder="Ime" />
-    <input v-model="species" class="border p-2 rounded w-full" placeholder="Vrsta" />
-    <input v-model="age" class="border p-2 rounded w-full" placeholder="Dob" />
-    <input v-model="health" class="border p-2 rounded w-full" placeholder="Zdravlje" />
+    <input v-model="name" class="border p-2 rounded w-full" placeholder="Ime" style="color: #fa7528"/>
+    <input v-model="species" class="border p-2 rounded w-full" placeholder="Vrsta" style="color: #00798c"/>
+    <input v-model="age" class="border p-2 rounded w-full" placeholder="Dob" style="color: #fa7528"/>
+    <input v-model="health" class="border p-2 rounded w-full" placeholder="Zdravlje" style="color: #00798c"/>
 
     <p v-if="error" class="text-red-600">{{ error }}</p>
+
+    <input type="file" @change="handleImage" class="border p-2 rounded w-full" />
+
+    <img v-if="imageBase64" :src="imageBase64" class="w-32 h-32 object-cover rounded" />
 
     <button @click="savePet" class="bg-green-600 text-white px-4 py-2 rounded">
       Spremi
     </button>
   </div>
 
-  <input type="file" @change="handleImage" class="border p-2 rounded w-full" />
 
-    <img v-if="imageBase64" :src="imageBase64" class="w-32 h-32 object-cover rounded" />
+  
 
 
 </template>

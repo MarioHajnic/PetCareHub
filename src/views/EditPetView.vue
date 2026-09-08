@@ -1,53 +1,100 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { db } from '@/firebase'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { db, auth } from '@/firebase'
+import { doc, getDoc, getDocs, updateDoc, deleteDoc, collection } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
+
+
 
 const route = useRoute()
 const router = useRouter()
 
-const petId = route.params.id
+const pet = ref(null)
+const activities = ref([])
+const potvrda = ref(false)
 
-const name = ref('')
-const species = ref('')
-const age = ref('')
-const health = ref('')
-const imageBase64 = ref('')
-const newImageBase64 = ref('')
+const editName = ref('')
+const editSpecies = ref('')
+const editAge = ref('')
+const editHealth = ref('')
 
-onMounted(async () => {
-  const snap = await getDoc(doc(db, 'pets', petId))
-  if (!snap.exists()) return
+onMounted(() => {
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return
 
-  const data = snap.data()
-  name.value = data.name
-  species.value = data.species
-  age.value = data.age
-  health.value = data.health
-  imageBase64.value = data.image || ''
+    const id = route.params.id
+
+    const petRef = doc(db, 'pets', id)
+    const petSnap = await getDoc(petRef)
+
+    if (petSnap.exists()) {
+      const d = petSnap.data()
+      pet.value = {
+        id: petSnap.id,
+        name: d.name,
+        species: d.species,
+        age: d.age,
+        health: d.health,
+        image: d.image || '',
+        userId: d.userId
+      }
+
+      editName.value = d.name
+      editSpecies.value = d.species
+      editAge.value = d.age
+      editHealth.value = d.health
+    }
+
+    const docs = await getDocs(collection(db, 'activities'))
+    const list = []
+    const all = docs.docs
+
+    for (let i = 0; i < all.length; i++) {
+      const item = all[i]
+      const d = item.data()
+
+      if (d.petId === id && d.userId === user.uid) {
+        list.push({
+          id: item.id,
+          date: d.date,
+          description: d.description
+        })
+      }
+    }
+
+    activities.value = list
+  })
 })
 
-function handleNewImage(e) {
-  const file = e.target.files[0]
-  const reader = new FileReader()
-
-  reader.onload = () => {
-    newImageBase64.value = reader.result
-  }
-
-  reader.readAsDataURL(file)
-}
-
-async function saveChanges() {
-  await updateDoc(doc(db, 'pets', petId), {
-    name: name.value,
-    species: species.value,
-    age: age.value,
-    health: health.value,
-    image: newImageBase64.value || imageBase64.value
+function savePet() {
+  updateDoc(doc(db, 'pets', pet.value.id), {
+    name: editName.value,
+    species: editSpecies.value,
+    age: editAge.value,
+    health: editHealth.value
   })
 
+  pet.value.name = editName.value
+  pet.value.species = editSpecies.value
+  pet.value.age = editAge.value
+  pet.value.health = editHealth.value
+}
+
+function brisanje() {
+  potvrda.value = true
+}
+
+function odustanioddelete() {
+  potvrda.value = false
+}
+
+async function deletePet() {
+  await deleteDoc(doc(db, 'pets', pet.value.id))
+  router.push('/pets')
+}
+
+function goBack() {
   router.push('/pets')
 }
 </script>
@@ -55,22 +102,66 @@ async function saveChanges() {
 
 
 <template>
-  <div @click="router.push('/pets')" class="cursor-pointer">←</div>
+  <div @click="goBack" class="cursor-pointer mb-4">
+    ← Natrag
+  </div>
 
-  <h1>Uredi ljubimca</h1>
+  <div v-if="pet">
+    <img v-if="pet.image" :src="pet.image" class="w-32 h-32 rounded-full object-cover mb-4" />
 
-  <img v-if="imageBase64" :src="imageBase64" class="w-32 h-32 object-cover rounded" />
+    <h1 class="text-2xl font-bold mb-4" style="color: #00798c">{{ pet.name }}</h1>
 
-  <input type="file" @change="handleNewImage" class="border p-2 rounded w-full" />
+    <div class="mb-4">
+      <label style="color: #fa7528">Ime:</label>
+      <input style="color: #fa7528" v-model="editName" class="border p-1 ml-2" />
+    </div>
 
-  <input v-model="name" class="border p-2 rounded w-full" placeholder="Ime" />
-  <input v-model="species" class="border p-2 rounded w-full" placeholder="Vrsta" />
-  <input v-model="age" class="border p-2 rounded w-full" placeholder="Dob" />
-  <input v-model="health" class="border p-2 rounded w-full" placeholder="Zdravlje" />
+    <div class="mb-4">
+      <label style="color: #00798c">Vrsta:</label>
+      <input style="color: #00798c" v-model="editSpecies" class="border p-1 ml-2" />
+    </div>
 
-  <button @click="saveChanges" class="bg-blue-600 text-white px-4 py-2 rounded">
-    Spremi promjene
-  </button>
+    <div class="mb-4">
+      <label style="color: #fa7528">Dob:</label>
+      <input  style="color: #fa7528" v-model="editAge" class="border p-1 ml-2" />
+    </div>
+
+    <div class="mb-4">
+      <label style="color: #00798c">Zdravlje:</label>
+      <input style="color: #00798c" v-model="editHealth" class="border p-1 ml-2" />
+    </div>
+
+    <button @click="savePet" class="bg-blue-500 text-white px-3 py-1 rounded mr-2">
+      Spremi promjene
+    </button>
+
+    <button @click="brisanje" class="bg-red-500 text-white px-3 py-1 rounded">
+      Izbrišii ljubimca
+    </button>
+
+    <div v-if="potvrda" class="mt-4 p-4 border rounded bg-gray-100">
+      <p>Jesi li siguran da želiš izbrisati ljubimca?</p>
+      <button @click="deletePet" class="bg-red-600 text-white px-3 py-1 rounded mr-2">
+        Da, izbriši
+      </button>
+      <button @click="odustanioddelete" class="bg-gray-400 text-white px-3 py-1 rounded">
+        Odustani
+      </button>
+    </div>
+
+    <h2 class="text-xl font-bold mt-6" style="color: #fa7528">Aktivnosti</h2>
+
+    <div v-if="activities.length === 0" class="mt-2">
+      <p style="color: #00798c">Još nemaš aktivnosti za ovog ljubimca.</p>
+    </div>
+
+    <ul v-else class="mt-2">
+      <li v-for="a in activities" :key="a.id" class="border-b py-2">
+        <b>{{ a.date }}</b> — {{ a.description }}
+      </li>
+    </ul>
+  </div>
 </template>
+
 
 

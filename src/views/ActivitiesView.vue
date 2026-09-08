@@ -13,30 +13,52 @@ const odabraniPet = ref('')
 const editingId = ref(null)
 const editDate = ref('')
 const editOpis = ref('')
+const editTip = ref('')
+
+const vrste = [
+  'Hranjenje',
+  'Šetnja',
+  'Veterinarski pregled',
+  'Igra',
+  'Ostalo'
+]
 
 onMounted(() => {
   onAuthStateChanged(auth, async (user) => {
     if (!user) return
 
-    const petsSnap = await getDocs(collection(db, 'pets'))
-    const petsArr = []
-    petsSnap.forEach(d => {
-      const data = d.data()
-      if (data.userId === user.uid) {
-        petsArr.push({ id: d.id, ...data })
-      }
-    })
-    pets.value = petsArr
+    const petsDocs = await getDocs(collection(db, 'pets'))
+    const petsList = []
 
-    const actSnap = await getDocs(collection(db, 'activities'))
-    const actArr = []
-    actSnap.forEach(d => {
-      const data = d.data()
-      if (data.userId === user.uid) {
-        actArr.push({ id: d.id, ...data })
+    petsDocs.forEach(docItem => {
+      const d = docItem.data()
+      if (d.userId === user.uid) {
+        petsList.push({
+          id: docItem.id,
+          name: d.name
+        })
       }
     })
-    activities.value = actArr
+
+    pets.value = petsList
+
+    const activitiesDocs = await getDocs(collection(db, 'activities'))
+    const activitiesList = []
+
+    activitiesDocs.forEach(docItem => {
+      const d = docItem.data()
+      if (d.userId === user.uid) {
+        activitiesList.push({
+          id: docItem.id,
+          petId: d.petId,
+          date: d.date,
+          tip: d.tip,
+          description: d.description
+        })
+      }
+    })
+
+    activities.value = activitiesList
   })
 })
 
@@ -49,6 +71,7 @@ function startEdit(a) {
   editingId.value = a.id
   editDate.value = a.date
   editOpis.value = a.description
+  editTip.value = a.tip
 }
 
 async function saveEdit(id) {
@@ -57,11 +80,14 @@ async function saveEdit(id) {
 
   await updateDoc(doc(db, 'activities', id), {
     date: editDate.value,
-    description: editOpis.value
+    description: editOpis.value,
+    tip: editTip.value
   })
 
   a.date = editDate.value
   a.description = editOpis.value
+  a.tip = editTip.value
+
   editingId.value = null
 }
 
@@ -85,7 +111,7 @@ function goTo(path) {
     <p>←</p>
   </div>
 
-  <h1>Aktivnosti</h1>
+  <h1 style="color: #00798c">Aktivnosti</h1>
 
   <div class="mt-5">
     <select v-model="odabraniPet">
@@ -102,10 +128,11 @@ function goTo(path) {
     <table v-if="activities.length" class="w-full border border-gray-400 border-collapse">
       <thead>
         <tr class="border-b border-gray-400">
-          <th class="p-2 text-left">Ljubimac</th>
-          <th class="p-2 text-left">Datum</th>
-          <th class="p-2 text-left">Opis</th>
-          <th class="p-2 text-left">Akcija</th>
+          <th class="p-2 text-left" style="color: #00798c">Ljubimac</th>
+          <th class="p-2 text-left" style="color: #fa7528">Tip</th>
+          <th class="p-2 text-left" style="color: #00798c">Datum</th>
+          <th class="p-2 text-left" style="color: #fa7528">Opis</th>
+          <th class="p-2 text-left" style="color: #00798c">Akcija</th>
         </tr>
       </thead>
 
@@ -116,6 +143,17 @@ function goTo(path) {
           class="border-b border-gray-300"
         >
           <td class="p-2">{{ petName(a.petId) }}</td>
+
+          <td class="p-2">
+            <div v-if="editingId !== a.id">
+              <span @dblclick="startEdit(a)">{{ a.tip }}</span>
+            </div>
+            <div v-else>
+              <select v-model="editTip" class="border p-1">
+                <option v-for="v in vrste" :key="v" :value="v">{{ v }}</option>
+              </select>
+            </div>
+          </td>
 
           <td class="p-2">
             <div v-if="editingId !== a.id">

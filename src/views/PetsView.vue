@@ -12,24 +12,28 @@ onMounted(() => {
   onAuthStateChanged(auth, async (user) => {
     if (!user) return
 
-    const q = await getDocs(collection(db, 'pets'))
-    const arr = []
+    const docs = await getDocs(collection(db, 'pets'))
+    const list = []
 
-    q.forEach(doc => {
-      const data = doc.data()
-      if (data.userId === user.uid) {
-        arr.push({
-          id: doc.id,
-          name: data.name,
-          species: data.species,
-          age: data.age,
-          health: data.health,
-          image: data.image || ''
+    const allDocs = docs.docs
+    for (let i = 0; i < allDocs.length; i++) {
+      const item = allDocs[i]
+      const d = item.data()
+
+      if (d.userId === user.uid) {
+        list.push({
+          id: item.id,
+          name: d.name,
+          species: d.species,
+          age: d.age,
+          health: d.health,
+          image: d.image ? d.image : '',
+          userId: d.userId
         })
       }
-    })
+    }
 
-    pets.value = arr
+    pets.value = list
   })
 })
 
@@ -41,12 +45,10 @@ function goTo(path) {
   router.push(path)
 }
 
-function editPet(id) {
-  router.push(`/pets/edit/${id}`)
+function prikazPet(id) {
+  router.push('/pets/edit/' + id)
 }
 </script>
-
-
 
 
 <template>
@@ -54,7 +56,7 @@ function editPet(id) {
     <p>←</p>
   </div>
 
-  <h1 class="text-2xl font-bold mb-6">Moji ljubimci</h1>
+  <h1 class="text-2xl font-bold mb-6" style="color: #00798c">Moji <span style="color: #fa7528">ljubimci</span></h1>
 
   <div v-if="pets.length === 0" class="mt-10 text-center">
     <p class="mb-4">Još nemaš dodanih ljubimaca.</p>
@@ -67,18 +69,18 @@ function editPet(id) {
     <table class="w-full border-collapse">
       <thead>
         <tr class="border-b">
-          <th class="text-left p-2">Slika</th>
-          <th class="text-left p-2">Ime</th>
-          <th class="text-left p-2">Vrsta</th>
-          <th class="text-left p-2">Dob</th>
-          <th class="text-left p-2">Zdravlje</th>
-          <th class="text-left p-2">Akcije</th>
+          <th class="text-left p-2" style="color: #00798c">Slika</th>
+          <th class="text-left p-2" style="color: #fa7528">Ime</th>
+          <th class="text-left p-2" style="color: #00798c">Vrsta</th>
+          <th class="text-left p-2" style="color: #fa7528">Dob</th>
+          <th class="text-left p-2" style="color: #00798c">Zdravlje</th>
+          <th class="text-left p-2" style="color: #fa7528">Akcije</th>
         </tr>
       </thead>
 
       <tbody>
         <tr v-for="p in pets" :key="p.id" class="border-b">
-          
+
           <td class="p-2">
             <img
               v-if="p.image"
@@ -93,8 +95,8 @@ function editPet(id) {
           <td class="p-2">{{ p.health }}</td>
 
           <td class="p-2">
-            <button @click="editPet(p.id)" class="text-blue-600">
-              Uredi
+            <button @click="prikazPet(p.id)" class="text-blue-600">
+              Pregled
             </button>
           </td>
 
@@ -110,4 +112,3 @@ function editPet(id) {
     </button>
   </div>
 </template>
-
